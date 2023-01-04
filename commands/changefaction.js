@@ -4,12 +4,14 @@ const client = require('../server.js')
 const crypto = require('crypto')
 const connection = require('../databasesql.js');
 const soap = require("../soap.js");
+const input_checkers = require('../input_checkers.js');
 module.exports = {
 	name: 'changefaction',
 	description: 'Change faction of your character.',
     DMonly: false,
 	execute(message, args) {
     if(!args[0]) return message.reply(`You need to add a character name after the command. \nUsage: **!changefaction <charactername>**`)
+    if(!input_checkers.legal_check(args)) return message.reply(`Only alphanumeric characters are allowed in character names`)
     let charName = args[0].charAt(0).toUpperCase() + args[0].slice(1).toLowerCase();
     connection.query('USE acore_characters')
       connection.query('select account from characters where name = ?', [charName], (error, results1, fields) => {

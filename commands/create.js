@@ -4,7 +4,9 @@ const client = require('../server.js')
 const crypto = require('crypto')
 const connection = require('../databasesql.js');
 const soap = require("../soap.js");
-const legal_check = require('input_checkers.js');
+const input_checkers = require('../input_checkers.js');
+
+
 module.exports = {
 	name: 'create',
 	description: 'Creates new game account.',
@@ -12,7 +14,7 @@ module.exports = {
 	execute(message, args) {
         if(!args[0]) return message.reply(`You need to add a username after the command. \nUsage: **!create <username> <password>**`)
         if(!args[1]) return message.reply(`You need to add a password after the username. \nUsage: **!create <username> <password>**`)
-        if(!legal_check(args)) return message.reply('Only alphanumeric characters are allowed in usernames and passwords')
+        if(!input_checkers.legal_check(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
         let username = args[0];
         let password = args[1];
         connection.query('USE acore_auth')
