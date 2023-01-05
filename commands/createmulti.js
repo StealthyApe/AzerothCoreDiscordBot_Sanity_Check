@@ -4,7 +4,7 @@ const client = require('../server.js')
 const crypto = require('crypto')
 const connection = require('../databasesql.js');
 const soap = require("../soap.js");
-const input_checkers = require('../input_checkers.js');
+import legal_check from '../input_checkers.js'
 module.exports = {
 	name: 'createmulti',
 	description: 'Creates new game accounts. It will use the name and password given and add a number to it at the end.',
@@ -15,7 +15,7 @@ module.exports = {
         if(!args[1]) return message.reply(`You need to add a username after the amount. \nUsage: **!createmulti <amountofaccounts> <username> <password>**`)
         if(!args[2]) return message.reply(`You need to add a password after the username. \nUsage: **!createmulti <amountofaccounts> <username> <password>**`)
         if(args[2].length > 14)  return message.reply(`Password needs to be smaller than 14 characters.`)
-        if(!input_checkers.legal_check(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
+        if (/[^a-zA-Z0-9]/.test(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
         let amount = parseInt(args[0]);
         let username = args[1];
         let password = args[2];
