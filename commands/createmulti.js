@@ -4,7 +4,6 @@ const client = require('../server.js')
 const crypto = require('crypto')
 const connection = require('../databasesql.js');
 const soap = require("../soap.js");
-import legal_check from '../input_checkers.js'
 module.exports = {
 	name: 'createmulti',
 	description: 'Creates new game accounts. It will use the name and password given and add a number to it at the end.',
