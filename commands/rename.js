@@ -10,8 +10,9 @@ module.exports = {
     DMonly: false,
 	execute(message, args) {
         if(!args[0]) return message.reply(`You need to add a character name after the command. \nUsage: **!rename <charactername>**`)
-        if (/[^a-zA-Z0-9]/.test(args)) return message.reply(`Only alphanumeric characters are allowed in character names`)
         let charName = args[0].charAt(0).toUpperCase() + args[0].slice(1).toLowerCase();
+        if (/[^a-zA-Z0-9]/.test(charName)) return message.reply(`Only alphanumeric characters are allowed in character names`)
+        if (charName.length > 12) return message.reply(`Character names cannot exceed 12 characters`)
         connection.query('USE acore_characters')
           connection.query('select account from characters where name = ?', [charName], (error, results1, fields) => {
             if(!results1[0]) return message.reply(`Character doesn't exist!`)

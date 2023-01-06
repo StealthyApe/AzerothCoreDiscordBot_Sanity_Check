@@ -11,9 +11,12 @@ module.exports = {
 	execute(message, args) {
         if(!args[0]) return message.reply(`You need to add a username after the command. \nUsage: **!password <username> <newpassword>**`)
         if(!args[1]) return message.reply(`You need to add a new password after the username. \nUsage: **!password <username> <newpassword>**`)
-        if (/[^a-zA-Z0-9]/.test(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
         let username = args[0];
         let password = args[1];
+        if (/[^a-zA-Z0-9]/.test(username)) return message.reply(`Only alphanumeric characters are allowed in usernames`)
+        if (/[^a-zA-Z0-9]/.test(password)) return message.reply(`Only alphanumeric characters are allowed in passwords`)
+        if (username.length > 320) return message.reply('Max username length is 320 characters')
+        if (password.length > 16) return message.reply('Passwords cannot exceed 16 characters in length')
           connection.query('select exists(select id from account where reg_mail = ? AND username = ?)', [message.author.id, username], (error, results, fields) => {
 
             if (error) return message.reply('An error occured.')

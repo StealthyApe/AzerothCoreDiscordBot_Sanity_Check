@@ -13,12 +13,13 @@ module.exports = {
         if(isNaN(args[0])) return message.reply(`The amount of accounts needs to be a number. \nUsage: **!createmulti <amountofaccounts> <username> <password>**`)
         if(!args[1]) return message.reply(`You need to add a username after the amount. \nUsage: **!createmulti <amountofaccounts> <username> <password>**`)
         if(!args[2]) return message.reply(`You need to add a password after the username. \nUsage: **!createmulti <amountofaccounts> <username> <password>**`)
-        if(args[2].length > 14)  return message.reply(`Password needs to be smaller than 14 characters.`)
-        if (/[^a-zA-Z0-9]/.test(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
         let amount = parseInt(args[0]);
         let username = args[1];
         let password = args[2];
-
+        if (/[^a-zA-Z0-9]/.test(username)) return message.reply(`Only alphanumeric characters are allowed in usernames`)
+        if (/[^a-zA-Z0-9]/.test(password)) return message.reply(`Only alphanumeric characters are allowed in passwords`)
+        if (username.length > 320) return message.reply('Max username length is 320 characters')
+        if (password.length > 16) return message.reply('Passwords cannot exceed 14 characters in length')
         const embed = new Discord.MessageEmbed()
         .setColor(config.color)
         .setTitle('Accounts Created')

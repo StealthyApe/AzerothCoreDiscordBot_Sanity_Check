@@ -12,9 +12,12 @@ module.exports = {
 	execute(message, args) {
         if(!args[0]) return message.reply(`You need to add a username after the command. \nUsage: **!create <username> <password>**`)
         if(!args[1]) return message.reply(`You need to add a password after the username. \nUsage: **!create <username> <password>**`)
-        if (/[^a-zA-Z0-9]/.test(args)) return message.reply(`Only alphanumeric characters are allowed in usernames and passwords`)
         let username = args[0];
         let password = args[1];
+        if (/[^a-zA-Z0-9]/.test(username)) return message.reply(`Only alphanumeric characters are allowed in usernames`)
+        if (/[^a-zA-Z0-9]/.test(password)) return message.reply(`Only alphanumeric characters are allowed in passwords`)
+        if (username.length > 320) return message.reply('Max username length is 320 characters')
+        if (password.length > 16) return message.reply('Passwords cannot exceed 16 characters in length')
         connection.query('USE acore_auth')
           connection.query('select COUNT(username) from account where reg_mail = ?', [message.author.id], (error, results, fields) => {
 
